@@ -1,9 +1,9 @@
-// src/pages/login.tsx
-import { Box, VStack, Heading, Link, Spacer } from "@chakra-ui/react";
+// src/pages/signup.tsx
+import { Box, VStack, Heading, Link } from "@chakra-ui/react";
 import { NextPage } from "next";
-import { LoginForm } from "@/components/LoginForm";
+import { SignUpForm } from "../components/SignUpForm";
 
-const LoginPage: NextPage = () => {
+const SignUpPage: NextPage = () => {
   return (
     <Box>
       <VStack
@@ -14,11 +14,11 @@ const LoginPage: NextPage = () => {
         alignItems="center"
       >
         <Heading>メーターログ</Heading>
-        <LoginForm />
-        <Link href="/signup">新規登録</Link>
+        <SignUpForm />
+        <Link href="/login">ログイン</Link>
       </VStack>
     </Box>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

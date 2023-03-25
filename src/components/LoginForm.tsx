@@ -9,10 +9,13 @@ import {
   Input,
   VStack,
 } from '@chakra-ui/react';
+import {useRouter} from "next/router";
 
-const LoginForm = () => {
+export const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ const LoginForm = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('ログイン成功');
+      router.push('/');
     } catch (error) {
       console.error('ログイン失敗:', error);
     }
@@ -52,5 +56,3 @@ const LoginForm = () => {
     </Box>
   );
 };
-
-export default LoginForm;
