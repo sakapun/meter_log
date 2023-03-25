@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '@/firebase';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -14,10 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     logEvent(analytics, 'page_view');
   }, []);
 
+  const { isLoggedIn } = useAuth();
+
   return (
     <ChakraProvider>
       <AuthProvider>
-        <Header />
+        {isLoggedIn && <Header />}
         <Component {...pageProps} />
       </AuthProvider>
     </ChakraProvider>
