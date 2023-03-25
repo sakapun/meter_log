@@ -1,4 +1,3 @@
-// src/pages/_app.tsx
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -8,19 +7,27 @@ import { analytics } from '@/firebase';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
 
+function InnerApp({ Component, pageProps }: AppProps) {
+  const { isLoggedIn } = useAuth();
+
+  return (
+    <>
+      {isLoggedIn && <Header />}
+      <Component {...pageProps} />
+    </>
+  );
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // ページビューのイベントをトラッキング
     logEvent(analytics, 'page_view');
   }, []);
 
-  const { isLoggedIn } = useAuth();
-
   return (
     <ChakraProvider>
       <AuthProvider>
-        {isLoggedIn && <Header />}
-        <Component {...pageProps} />
+        <InnerApp Component={Component} pageProps={pageProps} />
       </AuthProvider>
     </ChakraProvider>
   );
