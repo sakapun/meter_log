@@ -1,7 +1,8 @@
 // src/pages/login.tsx
-import { Box, VStack, Heading, Link, Spacer } from "@chakra-ui/react";
+import { Box, Button, VStack, Heading, Link, Spacer } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { LoginForm } from "@/components/LoginForm";
+import {GoogleAuth} from "@/components/GoogleAuth";
 
 const LoginPage: NextPage = () => {
   return (
@@ -16,6 +17,7 @@ const LoginPage: NextPage = () => {
         <Heading>メーターログ</Heading>
         <LoginForm />
         <Link href="/signup">新規登録</Link>
+        <GoogleAuth />
       </VStack>
     </Box>
   );

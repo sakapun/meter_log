@@ -12,12 +12,15 @@ import {
 import { useState } from "react";
 import {auth} from "@/firebase";
 import {createUserWithEmailAndPassword} from "firebase/auth";
+import {useRouter} from "next/router";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const toast = useToast();
+
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +45,7 @@ const SignUpForm = () => {
         duration: 5000,
         isClosable: true,
       });
+      await router.push("/");
     } catch (error) {
       toast({
         title: "エラー",
