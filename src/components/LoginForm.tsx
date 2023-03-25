@@ -24,7 +24,7 @@ export const LoginForm = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('ログイン成功');
-      router.push('/');
+      await router.push('/');
     } catch (error) {
       console.error('ログイン失敗:', error);
     }
