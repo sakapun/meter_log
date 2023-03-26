@@ -28,6 +28,7 @@ const Home = () => {
     <VStack spacing={6} alignItems="center" justifyContent="center" minH="100vh">
       <Heading>Welcome, {user.displayName || user.email}!</Heading>
       {/* Add your authenticated content here */}
+      <Link href="/view" >見るページ</Link>
     </VStack>
   );
 };

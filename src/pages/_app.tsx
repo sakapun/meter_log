@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { logEvent } from 'firebase/analytics';
-import { analytics } from '@/firebase/firebase';
+import { analytics } from '@/firebase';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
 
