@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import {auth} from "@/index/firebase";
+import {auth} from "@/firebase/firebase";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {useRouter} from "next/router";
 
