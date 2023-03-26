@@ -1,8 +1,11 @@
-import { doc, setDoc } from "firebase/firestore";
-import {db} from "@/firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import { MeterValues } from "@/types";
 
-const saveMeterData = async (yearMonth: string, meterValues: number[]) => {
-  const docRef = doc(db, "meters", yearMonth);
+const saveMeterData = async (year: number, month: number, meterValues: MeterValues) => {
+  const yearStr = year.toString();
+  const monthStr = month.toString().padStart(2, "0");
+  const docRef = doc<MeterValues>(collection(db, "meters", yearStr, monthStr), "data");
 
   try {
     await setDoc(docRef, { values: meterValues });
