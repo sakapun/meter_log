@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Button } from "@chakra-ui/react";
-import { auth } from "@/firebase";
+import { auth } from "@/index/firebase";
 
 export const GoogleAuth = () => {
   const router = useRouter();
