@@ -1,11 +1,15 @@
-type Tuple<T, N extends number> = N extends N ? number extends N ? T[] : _TupleOf<T, N, []> : never;
-type _TupleOf<T, N extends number, R extends unknown[]> = R['length'] extends N ? R : _TupleOf<T, N, [T, ...R]>;
-
-export type MeterValues = Tuple<number, 10>;
-
 export type MeterData = {
-  id?: string;
+  id: string;
   year: number;
   month: number;
-  meters: MeterValues[];
+  value1: number;
+  value2: number;
+  value3: number;
+  value4: number;
+  value5: number;
+  value6: number;
+  value7: number;
+  value8: number;
+  value9: number;
+  value10: number;
 };
