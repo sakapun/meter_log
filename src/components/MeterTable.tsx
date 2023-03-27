@@ -1,7 +1,7 @@
 import {Box, Table, Thead, Tbody, Tr, Th, Td, Button, Tfoot} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {fetchMeters, saveMeterData} from "@/models/meterLogs";
-import {MeterData, MeterValues} from "@/types";
+import {MeterData} from "@/types";
 import {EditableTr} from "@/components/EditableTr";
 
 export const MeterDataTable = () => {
@@ -48,18 +48,23 @@ export const MeterDataTable = () => {
         </Thead>
         <Tbody>
           {meterData.map((data) => (
-            <Tr key={data.id}>
+            <Tr key={`${data.year}-${data.month}`}>
               <Td>{data.year}</Td>
               <Td>{data.month}</Td>
-              {data.meters.map((value, i) => (
-                <Td key={i}>{value}</Td>
-              ))}
+              {Object.keys(data)
+                .filter((key) => key.startsWith("value"))
+                .map((valueKey, i) => (
+                  <Td key={i}>{data[valueKey]}</Td>
+                ))}
             </Tr>
           ))}
           {isEditing && <EditableTr handleNewSave={handleNewSave} data={{
             year: 2023,
             month:1,
-            meters: [0 ,0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ...Array(10).fill(0).reduce((acc, _, i) => {
+              acc[`value${i + 1}`] = 0;
+              return acc;
+            }, {}),
           }} />}
         </Tbody>
         <Tfoot>

@@ -1,5 +1,4 @@
 export type MeterData = {
-  id: string;
   year: number;
   month: number;
   value1: number;
