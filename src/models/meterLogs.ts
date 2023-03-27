@@ -1,15 +1,15 @@
-import {collection, doc, getDocs, query, setDoc} from "firebase/firestore";
+import {collection, doc, getDocs, query, setDoc, FirestoreDataConverter, QueryDocumentSnapshot} from "firebase/firestore";
 import {db} from "@/firebase";
 import {MeterData} from "@/types";
 
-const meterDataConverter = {
+const meterDataConverter: FirestoreDataConverter<MeterData> = {
   toFirestore: (data: MeterData) => data,
-  fromFirestore: (snapshot): MeterData => {
+  fromFirestore: (snapshot: QueryDocumentSnapshot<MeterData>): MeterData => {
     return snapshot.data();
   },
 };
 
-export const saveMeterData = async (data) => {
+export const saveMeterData = async (data: MeterData) => {
   const docId = `${data.year}-${data.month}`;
   const docRef = doc<MeterData>(collection(db, "meters").withConverter(meterDataConverter), docId);
 
