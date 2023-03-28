@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MeterData } from "@/types";
-import { Tr, Td, Button, Input } from "@chakra-ui/react";
+import {Tr, Td, Button, Input} from "@chakra-ui/react";
+import Link from "next/link";
 
 interface Props {
   data: MeterData;
@@ -61,7 +62,11 @@ export const EditableTr = ({ data, handleNewSave, defaultMode }: Props) => {
   ) : (
     <Tr>
       <Td>{data.year}</Td>
-      <Td>{data.month}</Td>
+      <Td>
+        <Link href={`/months/${data.year}-${data.month}`}>
+          {data.month}
+        </Link>
+      </Td>
       {Array(10)
         .fill(0)
         .map((_, index) => (
