@@ -5,12 +5,13 @@ import { Tr, Td, Button, Input } from "@chakra-ui/react";
 interface Props {
   data: MeterData;
   handleNewSave: (data: MeterData) => Promise<any>
+  defaultMode: "new" | "view"
 }
 
 const CELL_WIDTH = "60px";
 
-export const EditableTr = ({ data, handleNewSave }: Props) => {
-  const [isEditing, setIsEditing] = useState(true);
+export const EditableTr = ({ data, handleNewSave, defaultMode }: Props) => {
+  const [isEditing, setIsEditing] = useState<boolean>(defaultMode === "new");
   const [editData, setEditData] = useState<MeterData>(data);
 
   return isEditing ? (
@@ -46,7 +47,10 @@ export const EditableTr = ({ data, handleNewSave }: Props) => {
           </Td>
         ))}
       <Td>
-        <Button size="sm" colorScheme="green" onClick={() => handleNewSave(editData)}>
+        <Button size="sm" colorScheme="green" onClick={() => {
+          handleNewSave(editData);
+          setIsEditing(false);
+        }}>
           保存
         </Button>
         <Button size="sm" colorScheme="gray" ml={2} onClick={() => setIsEditing(false)}>

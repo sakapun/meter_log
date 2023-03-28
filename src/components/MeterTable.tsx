@@ -6,7 +6,7 @@ import {EditableTr} from "@/components/EditableTr";
 
 export const MeterDataTable = () => {
   const [meterData, setMeterData] = useState<MeterData[]>([]);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isNew, setIsNew] = useState<boolean>(false);
 
   useEffect(() => {
     const getMeterData = async () => {
@@ -17,14 +17,14 @@ export const MeterDataTable = () => {
   }, []);
 
   const handleAddRow = () => {
-    setIsEditing(true)
+    setIsNew(true)
   };
 
   const handleNewSave = async (data: MeterData) => {
     await saveMeterData(data);
     const meters = await fetchMeters();
     setMeterData(meters);
-    setIsEditing(false);
+    setIsNew(false);
   };
 
   return (
@@ -48,24 +48,25 @@ export const MeterDataTable = () => {
         </Thead>
         <Tbody>
           {meterData.map((data) => (
-            <Tr key={`${data.year}-${data.month}`}>
-              <Td>{data.year}</Td>
-              <Td>{data.month}</Td>
-              {Object.keys(data)
-                .filter((key) => key.startsWith("value"))
-                .map((valueKey, i) => (
-                  <Td key={i}>{data[valueKey]}</Td>
-                ))}
-            </Tr>
+            <EditableTr
+              key={`${data.year}-${data.month}`}
+              handleNewSave={handleNewSave}
+              defaultMode={"view"}
+              data={data} />
           ))}
-          {isEditing && <EditableTr handleNewSave={handleNewSave} data={{
-            year: 2023,
-            month:1,
-            ...Array(10).fill(0).reduce((acc, _, i) => {
-              acc[`value${i + 1}`] = 0;
-              return acc;
-            }, {}),
-          }} />}
+          {isNew && (
+            <EditableTr
+              handleNewSave={handleNewSave}
+              data={{
+                year: 2023,
+                month:1,
+                ...Array(10).fill(0).reduce((acc, _, i) => {
+                  acc[`value${i + 1}`] = 0;
+                  return acc;
+                }, {}),}}
+              defaultMode={"new"}
+            />
+          )}
         </Tbody>
         <Tfoot>
           <Tr>
