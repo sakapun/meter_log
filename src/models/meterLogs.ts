@@ -1,4 +1,13 @@
-import {collection, doc, getDocs, query, setDoc, FirestoreDataConverter, QueryDocumentSnapshot} from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  FirestoreDataConverter,
+  QueryDocumentSnapshot,
+  getDoc
+} from "firebase/firestore";
 import {db} from "@/firebase";
 import {MeterData} from "@/types";
 
@@ -24,9 +33,21 @@ export const saveMeterData = async (data: MeterData) => {
 export const fetchMeters = async (): Promise<MeterData[]> => {
   const q = query<MeterData>(collection(db, 'meters').withConverter(meterDataConverter))
   const querySnapshot = await getDocs<MeterData>(q);
-  console.log(querySnapshot.docs)
   return querySnapshot.docs.map((doc) => {
     return doc.data();
   });
+};
+
+export const fetchMeterByYearMonth = async (
+  year: number,
+  month: number
+): Promise<MeterData | undefined> => {
+  const docRef = doc<MeterData>(
+    collection(db, "meters").withConverter(meterDataConverter),
+    `${year}-${month}`
+  );
+  const docSnapshot = await getDoc<MeterData>(docRef);
+
+  return docSnapshot.data();
 };
 
