@@ -47,9 +47,9 @@ export const EditableTr = ({ data, handleNewSave, defaultMode }: Props) => {
           </Td>
         ))}
       <Td>
-        <Button size="sm" colorScheme="green" onClick={() => {
-          handleNewSave(editData);
+        <Button size="sm" colorScheme="green" onClick={async () => {
           setIsEditing(false);
+          await handleNewSave(editData);
         }}>
           保存
         </Button>
