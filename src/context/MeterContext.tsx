@@ -3,18 +3,23 @@ import { fetchMeters } from '@/models/meterLogs';
 import { MeterData } from '@/types';
 
 interface MeterContextData {
-  meters: MeterData[];
+  meterData: MeterData[];
   isLoading: boolean;
+  setMeters: (meterData: MeterData[]) => void;
 }
 
-const MeterContext = createContext<MeterContextData>({ meters: [], isLoading: true });
+const MeterContext = createContext<MeterContextData>({
+  meterData: [],
+  isLoading: true,
+  setMeters: () => {},
+});
 
 export const useMeters = () => {
   return useContext(MeterContext);
 };
 
 export const MeterProvider: React.FC = ({ children }) => {
-  const [meters, setMeters] = useState<MeterData[]>([]);
+  const [meterData, setMeters] = useState<MeterData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,5 +32,5 @@ export const MeterProvider: React.FC = ({ children }) => {
     fetchData();
   }, []);
 
-  return <MeterContext.Provider value={{ meters, isLoading }}>{children}</MeterContext.Provider>;
+  return <MeterContext.Provider value={{ meterData, isLoading, setMeters }}>{children}</MeterContext.Provider>;
 };

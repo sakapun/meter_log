@@ -3,18 +3,11 @@ import { useEffect, useState } from "react";
 import {fetchMeters, saveMeterData} from "@/models/meterLogs";
 import {MeterData} from "@/types";
 import {EditableTr} from "@/components/EditableTr";
+import {useMeters} from "@/context/MeterContext";
 
 export const MeterDataTable = () => {
-  const [meterData, setMeterData] = useState<MeterData[]>([]);
+  const {meterData, setMeters} = useMeters();
   const [isNew, setIsNew] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getMeterData = async () => {
-      const meters = await fetchMeters();
-      setMeterData(meters);
-    };
-    getMeterData();
-  }, []);
 
   const handleAddRow = () => {
     setIsNew(true)
@@ -23,7 +16,7 @@ export const MeterDataTable = () => {
   const handleNewSave = async (data: MeterData) => {
     await saveMeterData(data);
     const meters = await fetchMeters();
-    setMeterData(meters);
+    setMeters(meters);
     setIsNew(false);
   };
 
