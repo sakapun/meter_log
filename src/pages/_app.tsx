@@ -6,14 +6,20 @@ import { logEvent } from 'firebase/analytics';
 import { analytics } from '@/firebase';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
+import {MeterProvider} from "@/context/MeterContext";
 
 function InnerApp({ Component, pageProps }: AppProps) {
   const { isLoggedIn } = useAuth();
 
   return (
     <>
-      {isLoggedIn && <Header />}
-      <Component {...pageProps} />
+      {isLoggedIn && (
+        <MeterProvider>
+          <Header />
+          <Component {...pageProps} />
+        </MeterProvider>
+      )}
+      {!isLoggedIn && <Component {...pageProps} />}
     </>
   );
 }
