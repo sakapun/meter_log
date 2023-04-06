@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import { MeterData } from "@/types";
-import { fetchMeterByYearMonth } from "@/models/meterLogs";
+import { useMeters } from "@/context/MeterContext";
 import { getPreviousMonth } from "@/utils/date";
 
 export const useMonthDetails = (
   year: number | undefined,
   month: number | undefined
 ) => {
+  const { meterData } = useMeters();
   const [currentMonthData, setCurrentMonthData] = useState<MeterData | undefined>();
   const [previousMonthData, setPreviousMonthData] = useState<MeterData | undefined>();
 
   useEffect(() => {
-    if (year && month) {
-      fetchMeterByYearMonth(year, month).then((data) => {
-        setCurrentMonthData(data);
+    if (year && month && meterData.length > 0) {
+      const currentData = meterData.find((meter) => {
+        return meter.year === year && meter.month === month;
       });
+      setCurrentMonthData(currentData);
 
       const { prevYear, prevMonth } = getPreviousMonth(year, month);
-
-      fetchMeterByYearMonth(prevYear, prevMonth).then((data) => {
-        setPreviousMonthData(data);
+      const prevData = meterData.find((meter) => {
+        return meter.year === prevYear && meter.month === prevMonth;
       });
+      setPreviousMonthData(prevData);
     }
-  }, [year, month]);
+  }, [year, month, meterData]);
 
   const calculateDifferences = () => {
     if (!currentMonthData || !previousMonthData) {
